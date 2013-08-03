@@ -1,3 +1,6 @@
+{-|
+An Euterpea rendition of a folk-ish tune I composed long time ago.
+-}
 module OakDance where
 import Euterpea
 
@@ -15,10 +18,28 @@ oakDance = tempo (80/120) $
 -- the octave numbers seem to be off by 1, need to transpose all melodic parts
 voices = transpose 8 . chord
 
+
 -- flute
 
 flutePart :: Music Pitch
-flutePart = instrument Flute fluteChorus
+flutePart = instrument Flute $ line [fluteVerse1, fluteChorus]
+
+fluteVerse1 :: Music Pitch
+--                   |----------:---*-------:-------*---:-----------|----------:---*-------:-------*---:-----------|----------:---*-------:-------*---:-----------|----------:---*-------:-------*---:-----------|
+fluteVerse1 = line [ g 5 qn,                                        f 5 qn,                                        e 5 tq,        d 5 tq,         c 5 tq,         d 5 qn
+                   , g 5 qn,                                        f 5 qn,                                        e 5 tq,        f 5 tq,         c 5 tq,         d 5 qn
+                   , g 5 qn,                                        f 5 qn,                                        e 5 tq,        d 5 tq,         c 5 tq,         d 5 qn
+                   , g 5 tq,        a 5 tq,         bf 5 tq,        a 5 tq,        fs 5 tq,        d 5 tq,         c 5 tq,        d 5 tq,         fs 5 tq,        g 5 qn
+                   , bf 5 qn,                                       c 6 qn,                                        bf 5 tq,       a 5 tq,         g 5 tq,         a 5 qn
+                   , bf 5 qn,                                       g 5 qn,                                        fs 5 tq,       d 5 tq,         c 5 tq,         d 5 qn
+                   , f 5 qn,                                        g 5 qn,                                        a 5 tq,        bf 5 tq,        a 5 tq,         g 5 qn
+                   , f 5 tq,        e 5 tq,         d 5 tq,         e 5 tq2,                       f 5 tq,         e 5 tq2,                       cs 5 tq,        a 4 qn
+                   , d 5 tq,        e 5 tq,         f 5 tq,         g 5 tq2,                       f 5 tq,         e 5 tq2,                       a 5 tq,         g 5 qn
+                   , f 5 tq,        e 5 tq,         d 5 tq,         g 5 tq2,                       f 5 tq,         e 5 tq2,                       a 5 tq,         a 5 qn
+                   , bf 5 tq,       a 5 tq,         g 5 tq,         c 6 tq2,                       a 5 tq,         f 5 tq2,                       g 5 tq,         a 5 qn
+                   , g 5 qn,                                        f 5 tq,        e 5 tq,         d 5 tq,         e 5 hn
+                   ]
+
 
 fluteChorus :: Music Pitch
 --                   |----------:---*-------:-------*---:-----------|----------:---*-------:-------*---:-----------|----------:---*-------:-------*---:-----------|----------:---*-------:-------*---:-----------|
@@ -28,16 +49,20 @@ fluteChorus = line [ d 5 tq2,                       a 5 tq,         a 5 tq2,    
                    , a 5 tq,        d 6 tq,         a 5 tq,         g 5 tq,        f 5 tq,         e 5 tq,         d 5 t12,f 5 t12,e 5 en,                c 5 t12,d 5 tq2,                       d 5 tq
                    ]
 
+
 -- mandolin
 
 mandolinPart :: Music Pitch
-mandolinPart = instrument AcousticGuitarSteel mandolinChorus
+mandolinPart = instrument AcousticGuitarSteel $ line $ times 4 [mandolin4Bars]
 
-mandolinChorus :: Music Pitch
-mandolinChorus = line $ applySegmentedRhythm mandolinChorusChords mandolinChorusRhythm
+mandolinVerse1 :: Music Pitch
+mandolinVerse1 = line $ times 12 [wnr]
 
-mandolinChorusChords :: [Dur -> Music Pitch]
-mandolinChorusChords = times 3 [mandolinChordD1, mandolinChordD1, mandolinChordG3, mandolinChordD1] ++ [mandolinChordD3, mandolinChordD3, mandolinChordG1, mandolinChordG1]
+mandolin4Bars :: Music Pitch
+mandolin4Bars = line $ applySegmentedRhythm mandolin4BarsChords mandolin4BarsRhythm
+
+mandolin4BarsChords :: [Dur -> Music Pitch]
+mandolin4BarsChords = times 3 [mandolinChordD1, mandolinChordD1, mandolinChordG3, mandolinChordD1] ++ [mandolinChordD3, mandolinChordD3, mandolinChordG1, mandolinChordG1]
 
 mandolinChordD1 :: Dur -> Music Pitch
 mandolinChordD1 = mandolinChord (d 5) (a 5)
@@ -54,8 +79,8 @@ mandolinChordG3 = mandolinChord (d 5) (g 5)
 mandolinChord :: (Dur -> Music Pitch) -> (Dur -> Music Pitch) -> Dur -> Music Pitch
 mandolinChord n1 n2 dur = n1 dur :=: n2 dur
 
-mandolinChorusRhythm :: [[Dur]]
-mandolinChorusRhythm = times 7 [mandolinRhythm1, mandolinRhythm2] ++ times 2 [mandolinRhythm2]
+mandolin4BarsRhythm :: [[Dur]]
+mandolin4BarsRhythm = times 7 [mandolinRhythm1, mandolinRhythm2] ++ times 2 [mandolinRhythm2]
 
 mandolinRhythm1 :: [Dur]
 mandolinRhythm1 = [en, en * 1/3, en * 2/3]
@@ -67,16 +92,22 @@ mandolinRhythm2 = [tq2, tq]
 -- violin 1
 
 violin1Part :: Music Pitch
-violin1Part = instrument Violin chorusViolin1
+violin1Part = instrument Violin $ line [violin1Verse1, violin1Chorus]
 
-chorusViolin1 :: Music Pitch
-chorusViolin1 = line [d 5 dhn, a 4 qn, d 5 dhn, bf 4 tq2, a 4 tq, g 4 dhn, a 4 qn, d 5 dhn, d 5 qn]
+violin1Verse1 :: Music Pitch
+violin1Verse1 = verseRest
+
+violin1Chorus :: Music Pitch
+violin1Chorus = line [d 5 dhn, a 4 qn, d 5 dhn, bf 4 tq2, a 4 tq, g 4 dhn, a 4 qn, d 5 dhn, d 5 qn]
 
 
 -- violin 2
 
 violin2Part :: Music Pitch
-violin2Part = instrument Violin violin2Chorus
+violin2Part = instrument Violin $ line [violin2Verse1, violin2Chorus]
+
+violin2Verse1 :: Music Pitch
+violin2Verse1 = verseRest
 
 violin2Chorus :: Music Pitch
 violin2Chorus = line $ applyRhythm violin2ChorusMelody violin2ChorusRhythm
@@ -91,7 +122,10 @@ violin2ChorusRhythm = times 16 [qn * 2/3, qn * 1/3]
 -- viola
 
 violaPart :: Music Pitch
-violaPart = instrument Viola violaChorus
+violaPart = instrument Viola $ line [violaVerse1, violaChorus]
+
+violaVerse1 :: Music Pitch
+violaVerse1 = verseRest
 
 violaChorus :: Music Pitch
 violaChorus = line [d 3 wn, a 3 wn, bf 3 hn, c 4 hn, d 3 (wn * 11/12), d 4 tq]
@@ -100,7 +134,10 @@ violaChorus = line [d 3 wn, a 3 wn, bf 3 hn, c 4 hn, d 3 (wn * 11/12), d 4 tq]
 -- cello
 
 celloPart :: Music Pitch
-celloPart = instrument Cello celloChorus
+celloPart = instrument Cello $ line [celloVerse1, celloChorus]
+
+celloVerse1 :: Music Pitch
+celloVerse1 = verseRest
 
 celloChorus :: Music Pitch
 celloChorus = line [d 3 hn, g 2 hn, d 3 hn, a 2 hn, bf 2 hn, c 3 hn, d 3 hn, g 2 tq2, a 2 tq, d 2 qn]
@@ -109,7 +146,10 @@ celloChorus = line [d 3 hn, g 2 hn, d 3 hn, a 2 hn, bf 2 hn, c 3 hn, d 3 hn, g 2
 -- percussion
 
 percussionPart :: Music Pitch
-percussionPart = instrument Percussion percussionChorus
+percussionPart = instrument Percussion $ line [percussionVerse1, percussionChorus]
+
+percussionVerse1 :: Music Pitch
+percussionVerse1 = verseRest
 
 percussionChorus :: Music Pitch
 percussionChorus = percussionChorusTriangle :=: percussionChorusWoodBlocks 
@@ -139,6 +179,8 @@ tq53 = 5/3 * tq
 t13 = tq / 3
 t12 = tq / 2
 
+verseRest :: Music Pitch
+verseRest = line $ times 12 [wnr]
 
 times :: Int -> [a] -> [a]
 times n = concat . take n . repeat
