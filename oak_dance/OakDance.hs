@@ -1,16 +1,17 @@
 module OakDance ( oakDance ) where
 import Euterpea
 
-mandolin = AcousticGuitarSteel
-
 oakDance :: Music Pitch
-oakDance = tempo t $  chord [ instrument Flute chorusFlute
-                            , instrument mandolin chorusMandolin
-                            ]
+oakDance = transpose 8 $ tempo t $ chord [ flutePart
+                                         , mandolinPart
+                                         ]
 
 t = 80/120
 
 -- flute
+
+flutePart :: Music Pitch
+flutePart = instrument Flute chorusFlute
 
 chorusFlute :: Music Pitch
 --                   |----------:---*-------:-------*---:-----------|----------:---*-------:-------*---:-----------|----------:---*-------:-------*---:-----------|----------:---*-------:-------*---:-----------|
@@ -21,6 +22,11 @@ chorusFlute = line [ d 5 tq2,                       a 5 tq,         a 5 tq2,    
                    ]
 
 -- mandolin
+
+mandolinPart :: Music Pitch
+mandolinPart = instrument mandolin chorusMandolin
+
+mandolin = AcousticGuitarSteel
 
 chorusMandolin :: Music Pitch
 chorusMandolin = line $ applySegmentedRhythm chorusMandolinChords chorusMandolinRhythm
@@ -52,10 +58,11 @@ mandolinRhythm1 = [en, en * 1/3, en * 2/3]
 mandolinRhythm2 :: [Dur]
 mandolinRhythm2 = [tq2, tq]
 
--- adding rhythm
+
+-- rhythm
 
 applySegmentedRhythm :: [Dur -> Music Pitch] -> [[Dur]] -> [Music Pitch]
-applySegmentedRhythm chords rhythms = concat $ zipWith (\c r -> map c r) chords rhythms
+applySegmentedRhythm chords = concat . zipWith map chords
 
 
 -- durations
