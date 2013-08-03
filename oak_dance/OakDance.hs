@@ -7,35 +7,37 @@ oakDance = tempo (80/120) $
                   , mandolinPart
                   , violin1Part
                   , violin2Part
-                  ]
+                  , violaPart
+                  , celloPart
+                  ] :=:
+           percussionPart
 
-voices = chord
+-- the octave numbers seem to be off by 1, need to transpose all melodic parts
+voices = transpose 8 . chord
 
 -- flute
 
 flutePart :: Music Pitch
-flutePart = instrument Flute chorusFlute
+flutePart = instrument Flute fluteChorus
 
-chorusFlute :: Music Pitch
+fluteChorus :: Music Pitch
 --                   |----------:---*-------:-------*---:-----------|----------:---*-------:-------*---:-----------|----------:---*-------:-------*---:-----------|----------:---*-------:-------*---:-----------|
-chorusFlute = line [ d 6 tq2,                       a 6 tq,         a 6 tq2,                       a 6 tq,         g 6 tq2,                       f 6 tq,         e 6 tq53,              d 6 t13,c 6 tq
-                   , d 6 tq2,                       a 6 tq,         g 6 tq2,                       a 6 qn,                                        g 6 t12,f 6 t12,g 6 tq2,                       f 6 tq
-                   , g 6 tq2,                       g 6 tq,         f 6 tq2,                       e 6 tq,         f 6 tq2,                       e 6 t12,d 6 t12,e 6 tq2,                       a 5 tq
-                   , a 6 tq,        d 7 tq,         a 6 tq,         g 6 tq,        f 6 tq,         e 6 tq,         d 6 t12,f 6 t12,e 6 en,                c 6 t12,d 6 tq2,                       d 6 tq
+fluteChorus = line [ d 5 tq2,                       a 5 tq,         a 5 tq2,                       a 5 tq,         g 5 tq2,                       f 5 tq,         e 5 tq53,              d 5 t13,c 5 tq
+                   , d 5 tq2,                       a 5 tq,         g 5 tq2,                       a 5 qn,                                        g 5 t12,f 5 t12,g 5 tq2,                       f 5 tq
+                   , g 5 tq2,                       g 5 tq,         f 5 tq2,                       e 5 tq,         f 5 tq2,                       e 5 t12,d 5 t12,e 5 tq2,                       a 4 tq
+                   , a 5 tq,        d 6 tq,         a 5 tq,         g 5 tq,        f 5 tq,         e 5 tq,         d 5 t12,f 5 t12,e 5 en,                c 5 t12,d 5 tq2,                       d 5 tq
                    ]
 
 -- mandolin
 
 mandolinPart :: Music Pitch
-mandolinPart = instrument mandolin chorusMandolin
+mandolinPart = instrument AcousticGuitarSteel mandolinChorus
 
-mandolin = AcousticGuitarSteel
+mandolinChorus :: Music Pitch
+mandolinChorus = line $ applySegmentedRhythm mandolinChorusChords mandolinChorusRhythm
 
-chorusMandolin :: Music Pitch
-chorusMandolin = line $ applySegmentedRhythm chorusMandolinChords chorusMandolinRhythm
-
-chorusMandolinChords :: [Dur -> Music Pitch]
-chorusMandolinChords = times 3 [mandolinChordD1, mandolinChordD1, mandolinChordG3, mandolinChordD1] ++ [mandolinChordD3, mandolinChordD3, mandolinChordG1, mandolinChordG1]
+mandolinChorusChords :: [Dur -> Music Pitch]
+mandolinChorusChords = times 3 [mandolinChordD1, mandolinChordD1, mandolinChordG3, mandolinChordD1] ++ [mandolinChordD3, mandolinChordD3, mandolinChordG1, mandolinChordG1]
 
 mandolinChordD1 :: Dur -> Music Pitch
 mandolinChordD1 = mandolinChord (d 5) (a 5)
@@ -52,8 +54,8 @@ mandolinChordG3 = mandolinChord (d 5) (g 5)
 mandolinChord :: (Dur -> Music Pitch) -> (Dur -> Music Pitch) -> Dur -> Music Pitch
 mandolinChord n1 n2 dur = n1 dur :=: n2 dur
 
-chorusMandolinRhythm :: [[Dur]]
-chorusMandolinRhythm = times 7 [mandolinRhythm1, mandolinRhythm2] ++ times 2 [mandolinRhythm2]
+mandolinChorusRhythm :: [[Dur]]
+mandolinChorusRhythm = times 7 [mandolinRhythm1, mandolinRhythm2] ++ times 2 [mandolinRhythm2]
 
 mandolinRhythm1 :: [Dur]
 mandolinRhythm1 = [en, en * 1/3, en * 2/3]
@@ -68,12 +70,7 @@ violin1Part :: Music Pitch
 violin1Part = instrument Violin chorusViolin1
 
 chorusViolin1 :: Music Pitch
---                     |----------:-----------:-----------:-----------|
-chorusViolin1 = line [ d 5 dhn,                           a 4 qn
-                     , d 5 dhn,                           as 4 tq2, a 4 tq
-                     , g 4 dhn,                           a 4 qn
-                     , d 5 dhn,                           d 5 qn
-                     ]
+chorusViolin1 = line [d 5 dhn, a 4 qn, d 5 dhn, bf 4 tq2, a 4 tq, g 4 dhn, a 4 qn, d 5 dhn, d 5 qn]
 
 
 -- violin 2
@@ -82,7 +79,7 @@ violin2Part :: Music Pitch
 violin2Part = instrument Violin violin2Chorus
 
 violin2Chorus :: Music Pitch
-violin2Chorus = line  $ applyRhythm violin2ChorusMelody violin2ChorusRhythm
+violin2Chorus = line $ applyRhythm violin2ChorusMelody violin2ChorusRhythm
 
 violin2ChorusMelody :: [Dur -> Music Pitch]
 violin2ChorusMelody = concat [times 2 [d 5, a 4], times 4 [a 4, g 4], [f 4, g 4, bf 4, a 4], times 2 [g 4, f 4], [e 4, f 4, e 4, c 4, d 4, a 4, d 5, a 4, g 4, a 4, d 4, d 5]]
@@ -90,6 +87,42 @@ violin2ChorusMelody = concat [times 2 [d 5, a 4], times 4 [a 4, g 4], [f 4, g 4,
 violin2ChorusRhythm :: [Dur]
 violin2ChorusRhythm = times 16 [qn * 2/3, qn * 1/3]
 
+
+-- viola
+
+violaPart :: Music Pitch
+violaPart = instrument Viola violaChorus
+
+violaChorus :: Music Pitch
+violaChorus = line [d 3 wn, a 3 wn, bf 3 hn, c 4 hn, d 3 (wn * 11/12), d 4 tq]
+
+
+-- cello
+
+celloPart :: Music Pitch
+celloPart = instrument Cello celloChorus
+
+celloChorus :: Music Pitch
+celloChorus = line [d 3 hn, g 2 hn, d 3 hn, a 2 hn, bf 2 hn, c 3 hn, d 3 hn, g 2 tq2, a 2 tq, d 2 qn]
+
+
+-- percussion
+
+percussionPart :: Music Pitch
+percussionPart = instrument Percussion percussionChorus
+
+percussionChorus :: Music Pitch
+percussionChorus = percussionChorusTriangle :=: percussionChorusWoodBlocks 
+
+percussionChorusTriangle :: Music Pitch
+percussionChorusTriangle = line $ concat [times 3 [wnr], times 3 [qnr], map openTriangle [tq2, tq]]
+
+percussionChorusWoodBlocks :: Music Pitch
+percussionChorusWoodBlocks = line $ map lowWoodBlock $ times 16 [tq53, t13, tq]
+
+openTriangle  = perc OpenTriangle
+highWoodBlock = perc HiWoodBlock
+lowWoodBlock  = perc LowWoodBlock
 
 -- rhythm
 
