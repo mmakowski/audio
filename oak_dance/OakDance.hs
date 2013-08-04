@@ -182,7 +182,7 @@ violaChorus = line [d 3 wn, a 3 wn, bf 3 hn, c 4 hn, d 3 (wn * 11/12), d 4 tq]
 -- cello
 
 celloPart :: Music Pitch
-celloPart = instrument Cello $ line [celloVerse1, celloChorus]
+celloPart = instrument Cello $ line [celloVerse1, celloChorus, celloVerse2, celloChorus, celloVerse3, celloChorus]
 
 celloVerse1 :: Music Pitch
 celloVerse1 = verseRest
@@ -190,6 +190,24 @@ celloVerse1 = verseRest
 celloChorus :: Music Pitch
 celloChorus = line [d 3 hn, g 2 hn, d 3 hn, a 2 hn, bf 2 hn, c 3 hn, d 3 hn, g 2 tq2, a 2 tq, d 2 qn]
 
+celloVerse2 :: Music Pitch
+celloVerse2 = line $ concat [times 3 [wnr], [d 3 qn, c 3 qn, g 2 hn], times 4 [celloVerse2Motive]]
+
+celloVerse3 :: Music Pitch
+celloVerse3 = verseRest
+
+celloVerse2Motive :: Music Pitch
+celloVerse2Motive = line $ applyRhythm celloVerse2MotiveMelody (times 16 [tq2, tq])
+
+celloVerse2MotiveMelody :: [Dur -> Music Pitch]
+celloVerse2MotiveMelody = map (applyOct 2) [ d, d, d, d, g, g, d, d
+                                           , c, c, c, c, d, f, d, d
+                                           , g, g, g, g, f, e, f, c
+                                           , d, f, d, f, g, g, g, g
+                                           ]
+
+applyOct :: Octave -> (Octave -> a) -> a
+applyOct = flip ($)
 
 -- percussion
 
