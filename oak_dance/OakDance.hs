@@ -278,7 +278,7 @@ percussionChorusWoodBlocks :: Music Pitch
 percussionChorusWoodBlocks = line $ map lowWoodBlock $ times 16 [tq53, t13, tq]
 
 percussionVerse2Intro :: Music Pitch
-percussionVerse2Intro = line (map lowWoodBlock [tn, dqn, hn]) :=:
+percussionVerse2Intro = line (map lowWoodBlock [en, dqn, hn]) :=:
                         line (qnr : map highWoodBlock [tq2, qn, tq, tq2, tq])
 
 percussionVerse2Pattern :: Music Pitch
@@ -289,7 +289,7 @@ percussionVerse2PatternLowWoodBlock :: [Dur]
 percussionVerse2PatternLowWoodBlock = [ tq2, tq, tq2, tq, qn + tq2, tq
                                       , qn, dhn
                                       , tq2, qn, tq, hn
-                                      , tn, t12, qn, tq, qn, tq2, tq
+                                      , en, t12, qn, tq, qn, tq2, tq
                                       ]
 
 percussionVerse2PatternHighWoodBlock :: [Dur]
