@@ -140,13 +140,25 @@ mandolinRhythm2 = [tq2, tq]
 -- violin 1
 
 violin1Part :: Music Pitch
-violin1Part = instrument Violin $ line [violin1Verse1, violin1Chorus]
+violin1Part = instrument Violin $ line [violin1Verse1, violin1Chorus, violin1Verse2, violin1Chorus, violin1Verse3, violin1Chorus]
 
 violin1Verse1 :: Music Pitch
 violin1Verse1 = verseRest
 
 violin1Chorus :: Music Pitch
 violin1Chorus = line [d 5 dhn, a 4 qn, d 5 dhn, bf 4 tq2, a 4 tq, g 4 dhn, a 4 qn, d 5 dhn, d 5 qn]
+
+violin1Verse2 :: Music Pitch
+violin1Verse2 = line $ concat [times 4 (restBars 3 ++ violin1Tutti), violin1Verse2Pattern ++ violin1Tutti]
+
+violin1Verse3 :: Music Pitch
+violin1Verse3 = verseRest
+
+violin1Tutti :: [Music Pitch]
+violin1Tutti = [d 5 qn, f 5 tq2, d 5 t12, f 5 t12, g 5 hn]
+
+violin1Verse2Pattern :: [Music Pitch]
+violin1Verse2Pattern = applyRhythm [d 6, a 5, g 5, f 5, g 5, a 5] $ times 3 [dhn, qn]
 
 
 -- violin 2
@@ -161,7 +173,7 @@ violin2Chorus :: Music Pitch
 violin2Chorus = line $ applyRhythm violin2ChorusMelody violin2ChorusRhythm
 
 violin2Verse2 :: Music Pitch
-violin2Verse2 = line $ concat [times 3 (times 3 [wnr] ++ violin2Tutti), times 2 (violin2Verse2Motive ++ violin2Tutti)]
+violin2Verse2 = line $ concat [times 3 (restBars 3 ++ violin2Tutti), times 2 (violin2Verse2Pattern ++ violin2Tutti)]
 
 violin2Verse3 :: Music Pitch
 violin2Verse3 = verseRest
@@ -175,17 +187,17 @@ violin2ChorusRhythm = times 16 [qn * 2/3, qn * 1/3]
 violin2Tutti :: [Music Pitch]
 violin2Tutti = [a 4 qn, g 4 tq2, a 4 t12, g 4 t12, d 4 hn]
 
-violin2Verse2Motive :: [Music Pitch]
-violin2Verse2Motive = applyRhythm violin2Verse2MotiveMelody violin2Verse2MotiveRhythm
+violin2Verse2Pattern :: [Music Pitch]
+violin2Verse2Pattern = applyRhythm violin2Verse2PatternMelody violin2Verse2PatternRhythm
 
-violin2Verse2MotiveMelody :: [Dur -> Music Pitch]
-violin2Verse2MotiveMelody = [ d 4, a 4, a 4, d 4, a 4, a 4, g 4, e 4, c 4, d 4, e 4, g 4
-                            , g 4, e 4, c 4, g 4,      e 4, f 4,      g 4, a 4,      a 4
-                            , d 4, a 4, d 5, d 5,      a 4, g 4,      f 4, g 4,      c 4
-                            ]
+violin2Verse2PatternMelody :: [Dur -> Music Pitch]
+violin2Verse2PatternMelody = [ d 4, a 4, a 4, d 4, a 4, a 4, g 4, e 4, c 4, d 4, e 4, g 4
+                             , g 4, e 4, c 4, g 4,      e 4, f 4,      g 4, a 4,      a 4
+                             , d 4, a 4, d 5, d 5,      a 4, g 4,      f 4, g 4,      c 4
+                             ]
 
-violin2Verse2MotiveRhythm :: [Dur]
-violin2Verse2MotiveRhythm = concat [times 12 [tq], times 2 (times 3 [tq] ++ times 3 [tq2, tq])]
+violin2Verse2PatternRhythm :: [Dur]
+violin2Verse2PatternRhythm = concat [times 12 [tq], times 2 (times 3 [tq] ++ times 3 [tq2, tq])]
 
 
 -- viola
@@ -200,13 +212,13 @@ violaChorus :: Music Pitch
 violaChorus = line [d 3 wn, a 3 wn, bf 3 hn, c 4 hn, d 3 (wn * 11/12), d 4 tq]
 
 violaVerse2 :: Music Pitch
-violaVerse2 = line $ concat [times 2 (times 3 [wnr] ++ violaTutti), times 3 (violaVerse2Motive ++ violaTutti)]
+violaVerse2 = line $ concat [times 2 (restBars 3 ++ violaTutti), times 3 (violaVerse2Pattern ++ violaTutti)]
 
 violaTutti :: [Music Pitch]
 violaTutti = [d 3 qn, c 3 tq2, d 3 t12, c 3 t12, d 3 hn]
 
-violaVerse2Motive :: [Music Pitch]
-violaVerse2Motive = applyRhythm (map (applyOct 3) [d, d, c, c, d, f]) (times 6 [hn])
+violaVerse2Pattern :: [Music Pitch]
+violaVerse2Pattern = applyRhythm (map (applyOct 3) [d, d, c, c, d, f]) (times 6 [hn])
 
 violaVerse3 :: Music Pitch
 violaVerse3 = verseRest
@@ -224,20 +236,20 @@ celloChorus :: Music Pitch
 celloChorus = line [d 3 hn, g 2 hn, d 3 hn, a 2 hn, bf 2 hn, c 3 hn, d 3 hn, g 2 tq2, a 2 tq, d 2 qn]
 
 celloVerse2 :: Music Pitch
-celloVerse2 = line $ concat [times 3 [wnr], [d 3 qn, c 3 qn, g 2 hn], times 4 [celloVerse2Motive]]
+celloVerse2 = line $ concat [restBars 3, [d 3 qn, c 3 qn, g 2 hn], times 4 [celloVerse2Pattern]]
 
 celloVerse3 :: Music Pitch
 celloVerse3 = verseRest
 
-celloVerse2Motive :: Music Pitch
-celloVerse2Motive = line $ applyRhythm celloVerse2MotiveMelody (times 16 [tq2, tq])
+celloVerse2Pattern :: Music Pitch
+celloVerse2Pattern = line $ applyRhythm celloVerse2PatternMelody (times 16 [tq2, tq])
 
-celloVerse2MotiveMelody :: [Dur -> Music Pitch]
-celloVerse2MotiveMelody = map (applyOct 2) [ d, d, d, d, g, g, d, d
-                                           , c, c, c, c, d, f, d, d
-                                           , g, g, g, g, f, e, f, c
-                                           , d, f, d, f, g, g, g, g
-                                           ]
+celloVerse2PatternMelody :: [Dur -> Music Pitch]
+celloVerse2PatternMelody = map (applyOct 2) [ d, d, d, d, g, g, d, d
+                                            , c, c, c, c, d, f, d, d
+                                            , g, g, g, g, f, e, f, c
+                                            , d, f, d, f, g, g, g, g
+                                            ]
 
 applyOct :: Octave -> (Octave -> a) -> a
 applyOct = flip ($)
@@ -254,7 +266,7 @@ percussionChorus :: Music Pitch
 percussionChorus = percussionChorusTriangle :=: percussionChorusWoodBlocks 
 
 percussionChorusTriangle :: Music Pitch
-percussionChorusTriangle = line $ concat [times 3 [wnr], times 3 [qnr], map openTriangle [tq2, tq]]
+percussionChorusTriangle = line $ concat [restBars 3, times 3 [qnr], map openTriangle [tq2, tq]]
 
 percussionChorusWoodBlocks :: Music Pitch
 percussionChorusWoodBlocks = line $ map lowWoodBlock $ times 16 [tq53, t13, tq]
@@ -282,6 +294,9 @@ tqr = rest tq
 
 verseRest :: Music Pitch
 verseRest = line $ times 12 [wnr]
+
+restBars :: Int -> [Music Pitch]
+restBars n = times n [wnr]
 
 times :: Int -> [a] -> [a]
 times n = concat . take n . repeat
