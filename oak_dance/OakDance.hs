@@ -152,7 +152,7 @@ violin1Chorus = line [d 5 dhn, a 4 qn, d 5 dhn, bf 4 tq2, a 4 tq, g 4 dhn, a 4 q
 -- violin 2
 
 violin2Part :: Music Pitch
-violin2Part = instrument Violin $ line [violin2Verse1, violin2Chorus]
+violin2Part = instrument Violin $ line [violin2Verse1, violin2Chorus, violin2Verse2, violin2Chorus, violin2Verse3, violin2Chorus]
 
 violin2Verse1 :: Music Pitch
 violin2Verse1 = verseRest
@@ -160,11 +160,32 @@ violin2Verse1 = verseRest
 violin2Chorus :: Music Pitch
 violin2Chorus = line $ applyRhythm violin2ChorusMelody violin2ChorusRhythm
 
+violin2Verse2 :: Music Pitch
+violin2Verse2 = line $ concat [times 3 (times 3 [wnr] ++ violin2Tutti), times 2 (violin2Verse2Motive ++ violin2Tutti)]
+
+violin2Verse3 :: Music Pitch
+violin2Verse3 = verseRest
+
 violin2ChorusMelody :: [Dur -> Music Pitch]
 violin2ChorusMelody = concat [times 2 [d 5, a 4], times 4 [a 4, g 4], [f 4, g 4, bf 4, a 4], times 2 [g 4, f 4], [e 4, f 4, e 4, c 4, d 4, a 4, d 5, a 4, g 4, a 4, d 4, d 5]]
 
 violin2ChorusRhythm :: [Dur]
 violin2ChorusRhythm = times 16 [qn * 2/3, qn * 1/3]
+
+violin2Tutti :: [Music Pitch]
+violin2Tutti = [a 4 qn, g 4 tq2, a 4 t12, g 4 t12, d 4 hn]
+
+violin2Verse2Motive :: [Music Pitch]
+violin2Verse2Motive = applyRhythm violin2Verse2MotiveMelody violin2Verse2MotiveRhythm
+
+violin2Verse2MotiveMelody :: [Dur -> Music Pitch]
+violin2Verse2MotiveMelody = [ d 4, a 4, a 4, d 4, a 4, a 4, g 4, e 4, c 4, d 4, e 4, g 4
+                            , g 4, e 4, c 4, g 4,      e 4, f 4,      g 4, a 4,      a 4
+                            , d 4, a 4, d 5, d 5,      a 4, g 4,      f 4, g 4,      c 4
+                            ]
+
+violin2Verse2MotiveRhythm :: [Dur]
+violin2Verse2MotiveRhythm = concat [times 12 [tq], times 2 (times 3 [tq] ++ times 3 [tq2, tq])]
 
 
 -- viola
@@ -179,7 +200,7 @@ violaChorus :: Music Pitch
 violaChorus = line [d 3 wn, a 3 wn, bf 3 hn, c 4 hn, d 3 (wn * 11/12), d 4 tq]
 
 violaVerse2 :: Music Pitch
-violaVerse2 = line $ concat [times 3 [wnr], violaTutti, times 3 [wnr], violaTutti, times 3 (violaVerse2Motive ++ violaTutti)]
+violaVerse2 = line $ concat [times 2 (times 3 [wnr] ++ violaTutti), times 3 (violaVerse2Motive ++ violaTutti)]
 
 violaTutti :: [Music Pitch]
 violaTutti = [d 3 qn, c 3 tq2, d 3 t12, c 3 t12, d 3 hn]
