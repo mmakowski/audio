@@ -257,7 +257,7 @@ applyOct = flip ($)
 -- percussion
 
 percussionPart :: Music Pitch
-percussionPart = instrument Percussion $ line [percussionVerse1, percussionChorus]
+percussionPart = instrument Percussion $ line [percussionVerse1, percussionChorus, percussionVerse2, percussionChorus, percussionVerse3, percussionChorus]
 
 percussionVerse1 :: Music Pitch
 percussionVerse1 = verseRest
@@ -265,11 +265,39 @@ percussionVerse1 = verseRest
 percussionChorus :: Music Pitch
 percussionChorus = percussionChorusTriangle :=: percussionChorusWoodBlocks 
 
+percussionVerse2 :: Music Pitch
+percussionVerse2 = line $ concat [restBars 3, [percussionVerse2Intro], times 4 [percussionVerse2Pattern]]
+
+percussionVerse3 :: Music Pitch
+percussionVerse3 = verseRest
+
 percussionChorusTriangle :: Music Pitch
 percussionChorusTriangle = line $ concat [restBars 3, times 3 [qnr], map openTriangle [tq2, tq]]
 
 percussionChorusWoodBlocks :: Music Pitch
 percussionChorusWoodBlocks = line $ map lowWoodBlock $ times 16 [tq53, t13, tq]
+
+percussionVerse2Intro :: Music Pitch
+percussionVerse2Intro = line (map lowWoodBlock [tn, dqn, hn]) :=:
+                        line (qnr : map highWoodBlock [tq2, qn, tq, tq2, tq])
+
+percussionVerse2Pattern :: Music Pitch
+percussionVerse2Pattern = line (map lowWoodBlock percussionVerse2PatternLowWoodBlock) :=:
+                          line (rest (hn + tq2) : map highWoodBlock percussionVerse2PatternHighWoodBlock)
+
+percussionVerse2PatternLowWoodBlock :: [Dur]
+percussionVerse2PatternLowWoodBlock = [ tq2, tq, tq2, tq, qn + tq2, tq
+                                      , qn, dhn
+                                      , tq2, qn, tq, hn
+                                      , tn, t12, qn, tq, qn, tq2, tq
+                                      ]
+
+percussionVerse2PatternHighWoodBlock :: [Dur]
+percussionVerse2PatternHighWoodBlock = [ tq, qn + tq2
+                                       , qn, tq, tq2, tq, tq2, tq + qn
+                                       , qn + tq2, tq, tq2, tq + qn
+                                       , dqn, t12, tq + qn
+                                       ]
 
 openTriangle  = perc OpenTriangle
 highWoodBlock = perc HiWoodBlock
