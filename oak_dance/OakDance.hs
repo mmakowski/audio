@@ -22,7 +22,7 @@ voices = transpose 8 . chord
 -- flute
 
 flutePart :: Music Pitch
-flutePart = instrument Flute $ line [fluteVerse1, fluteChorus, fluteVerse2, fluteChorus]
+flutePart = instrument Flute $ line [fluteVerse1, fluteChorus, fluteVerse2, fluteChorus, fluteVerse3, fluteChorus]
 
 fluteVerse1 :: Music Pitch
 --                   |----------:---*-------:-------*---:-----------|----------:---*-------:-------*---:-----------|----------:---*-------:-------*---:-----------|----------:---*-------:-------*---:-----------|
@@ -73,11 +73,26 @@ fluteVerse2 = line [ a 4 tq2,                       d 5 tq,         a 5 tq2,    
                    , f 4 tq2,                       f 4 tq,         g 4 tq2,                       g 4 tq,         a 4 tq2,                       g 4 tq,         a 4 tq2,                       a 4 tq
                    ]
 
+fluteVerse3 :: Music Pitch
+--                   |----------:---*-------:-------*---:-----------|----------:---*-------:-------*---:-----------|----------:---*-------:-------*---:-----------|----------:---*-------:-------*---:-----------|
+fluteVerse3 = line [ a 4 tq2,                       a 4 tq,         d 5 tq2,                       c 5 tq,         bf 4 tq2,                      c 5 tq,         a 4 tq2,                       d 4 tq
+                   , f 4 tq2,                       f 4 tq,         f 4 tq2,                       f 4 tq,         g 4 tq2,                       f 4 t12,g 4 t12,a 4 tq2,                       a 4 tq
+                   , d 5 tq2,                       e 5 tq,         f 5 tq2,                       e 5 t12,d 5 t12,c 5 tq,        a 4 tq,         g 4 tq,         a 4 tq2,                       d 5 tq
+                   , f 4 qn,                                        g 4 qn,                                        a 4 hn
+                   , tqr,           d 5 tq,         e 5 tq,         f 5 tq2,                       e 5 t12,f 5 t12,g 5 tq2,                       f 5 t12,g 5 t12,a 5 tq2,                       a 5 tq
+                   , f 5 tq2,                       a 5 tq,         f 5 tq2,                       e 5 t12,d 5 t12,c 5 tq2,                       a 4 t12,g 4 t12,a 4 tq2,                       a 4 tq
+                   , d 5 tq,        d 5 tq,         e 5 tq,         f 5 tq2,                       e 5 t12,d 5 t12,e 5 tq2,                       d 5 tq,         c 5 tq2,                       bf 4 tq
+                   , a 4 tq,        d 5 tq,         a 4 tq,         g 4 tq,        f 4 tq,         g 4 tq,         a 4 tq2,                       g 4 tq,         a 4 tq2,                       a 4 tq
+                   , d 5 tq,        a 5 tq,         a 5 tq,         d 5 tq,        a 5 tq,         a 5 tq,         g 5 tq,        f 5 tq,         g 5 tq,         e 5 tq2,                       c 5 tq
+                   , d 5 tq,        a 4 tq,         a 4 tq,         d 5 tq,        a 4 tq,         a 4 tq,         g 4 t12,c 5 t12,a 4 tq32,              g 4 t12,a 4 tq2,                       a 4 tq
+                   , d 5 tq,        a 4 tq,         d 5 tq,         c 5 tq2,                       a 4 tq,         bf 4 tq,       a 4 tq,         g 4 tq,         a 4 tq2,                       d 4 tq
+                   , f 5 tq,        e 5 tq,         f 5 tq,         g 5 tq2,                       d 5 tq,         e 5 tq,        d 5 tq,         c 5 tq,         a 4 tq2,                       c 5 tq
+                   ]
 
 -- mandolin
 
 mandolinPart :: Music Pitch
-mandolinPart = instrument AcousticGuitarSteel $ line $ [mandolinVerse1, mandolinChorus, mandolinVerse2, mandolinChorus]
+mandolinPart = instrument AcousticGuitarSteel $ line $ [mandolinVerse1, mandolinChorus, mandolinVerse2, mandolinChorus, mandolinVerse3, mandolinChorus]
 
 mandolinVerse1 :: Music Pitch
 mandolinVerse1 = line $ times 3 [mandolin4Bars]
@@ -87,6 +102,9 @@ mandolinChorus = mandolin4Bars
 
 mandolinVerse2 :: Music Pitch
 mandolinVerse2 = line $ times 5 [mandolin4Bars]
+
+mandolinVerse3 :: Music Pitch
+mandolinVerse3 = line $ times 3 [mandolin4Bars]
 
 mandolin4Bars :: Music Pitch
 mandolin4Bars = line $ applySegmentedRhythm mandolin4BarsChords mandolin4BarsRhythm
@@ -206,8 +224,10 @@ applyRhythm = zipWith ($)
 tq = qn / 3
 tq2 = 2 * tq
 tq53 = 5/3 * tq
+tq32 = 3/2 * tq
 t13 = tq / 3
 t12 = tq / 2
+tqr = rest tq
 
 verseRest :: Music Pitch
 verseRest = line $ times 12 [wnr]
