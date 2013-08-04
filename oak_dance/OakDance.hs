@@ -22,7 +22,7 @@ voices = transpose 8 . chord
 -- flute
 
 flutePart :: Music Pitch
-flutePart = instrument Flute $ line [fluteVerse1, fluteChorus]
+flutePart = instrument Flute $ line [fluteVerse1, fluteChorus, fluteVerse2, fluteChorus]
 
 fluteVerse1 :: Music Pitch
 --                   |----------:---*-------:-------*---:-----------|----------:---*-------:-------*---:-----------|----------:---*-------:-------*---:-----------|----------:---*-------:-------*---:-----------|
@@ -49,14 +49,44 @@ fluteChorus = line [ d 5 tq2,                       a 5 tq,         a 5 tq2,    
                    , a 5 tq,        d 6 tq,         a 5 tq,         g 5 tq,        f 5 tq,         e 5 tq,         d 5 t12,f 5 t12,e 5 en,                c 5 t12,d 5 tq2,                       d 5 tq
                    ]
 
+fluteVerse2 :: Music Pitch
+--                   |----------:---*-------:-------*---:-----------|----------:---*-------:-------*---:-----------|----------:---*-------:-------*---:-----------|----------:---*-------:-------*---:-----------|
+fluteVerse2 = line [ a 4 tq2,                       d 5 tq,         a 5 tq2,                       d 5 tq,         g 5 tq2,                       f 5 tq,         e 5 tq2,                       d 5 t12, c 5 t12
+                   , d 5 tq2,                       a 4 tq,         g 4 tq2,                       c 5 tq,         a 4 tq2,                       g 4 tq,         a 4 tq2,                       a 4 tq
+                   , d 5 tq2,                       c 5 tq,         d 5 tq2,                       e 5 tq,         f 5 tq2,                       e 5 t12,d 5 t12,c 5 tq2,                       a 4 tq
+                   , f 4 tq2,                       f 4 tq,         g 4 tq2,                       g 4 tq,         a 4 tq2,                       g 4 tq,         a 4 tq2,                       a 4 tq
+                   , d 5 tq2,                       g 5 tq,         a 5 tq2,                       bf 5 tq,        g 5 tq2,                       f 5 tq,         g 5 tq2,                       a 5 tq
+                   , d 6 tq2,                       a 5 tq,         c 6 tq2,                       a 5 tq,         g 5 tq2,                       f 5 tq,         g 5 tq2,                       c 5 tq
+                   , d 5 tq2,                       d 5 tq,         e 5 tq2,                       e 5 tq,         f 5 tq2,                       e 5 t12,d 5 t12,c 5 tq2,                       a 4 tq
+                   , d 5 tq2,                       a 4 tq,         g 4 tq2,                       c 5 tq,         a 4 tq2,                       g 4 tq,         a 4 tq2,                       a 4 tq
+                   , c 5 tq2,                       d 5 tq,         f 5 tq2,                       g 5 tq,         f 5 tq2,                       e 5 tq,         f 5 tq2,                       g 5 tq
+                   , a 5 tq2,                       d 6 tq,         g 5 tq2,                       c 6 tq,         a 5 tq2,                       g 5 tq,         a 5 tq2,                       a 5 tq
+                   , bf 5 tq2,                      a 5 t12,g 5 t12,f 5 tq2,                       e 5 tq,         f 5 tq2,                       d 5 tq,         c 5 tq2,                       a 4 tq
+                   , d 5 tq2,                       d 5 tq,         g 5 tq2,                       g 5 tq,         a 5 tq2,                       g 5 tq,         a 5 tq2,                       a 5 tq
+                   , d 6 tq2,                       c 6 tq,         d 6 tq2,                       d 6 tq,         c 6 tq2,                       bf 5 tq,        a 5 tq2,                       a 5 tq
+                   , d 6 tq2,                       c 6 tq,         d 6 tq2,                       c 6 t12,bf 5 t12,a 5 tq2,                      g 5 tq,         a 5 tq2,                       a 5 tq
+                   , d 5 tq2,                       d 5 tq,         f 5 tq2,                       f 5 tq,         g 5 tq2,                       f 5 tq,         g 5 tq2,                       g 5 tq
+                   , d 5 tq2,                       d 5 tq,         f 5 tq2,                       f 5 tq,         g 5 tq2,                       f 5 tq,         g 5 tq2,                       g 5 tq
+                   , f 5 tq2,                       e 5 tq,         d 5 tq2,                       c 5 tq,         a 4 tq2,                       c 5 tq,         a 4 tq2,                       a 4 tq
+                   , g 4 tq2,                       g 4 tq,         f 4 tq2,                       g 4 tq,         a 4 tq2,                       g 4 tq,         a 4 tq2,                       a 4 tq
+                   , d 5 tq2,                       f 5 tq,         e 5 tq2,                       d 5 tq,         c 5 tq2,                       d 5 tq,         a 4 tq2,                       g 4 tq
+                   , f 4 tq2,                       f 4 tq,         g 4 tq2,                       g 4 tq,         a 4 tq2,                       g 4 tq,         a 4 tq2,                       a 4 tq
+                   ]
+
 
 -- mandolin
 
 mandolinPart :: Music Pitch
-mandolinPart = instrument AcousticGuitarSteel $ line $ times 4 [mandolin4Bars]
+mandolinPart = instrument AcousticGuitarSteel $ line $ [mandolinVerse1, mandolinChorus, mandolinVerse2, mandolinChorus]
 
 mandolinVerse1 :: Music Pitch
-mandolinVerse1 = line $ times 12 [wnr]
+mandolinVerse1 = line $ times 3 [mandolin4Bars]
+
+mandolinChorus :: Music Pitch
+mandolinChorus = mandolin4Bars
+
+mandolinVerse2 :: Music Pitch
+mandolinVerse2 = line $ times 5 [mandolin4Bars]
 
 mandolin4Bars :: Music Pitch
 mandolin4Bars = line $ applySegmentedRhythm mandolin4BarsChords mandolin4BarsRhythm
