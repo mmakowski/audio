@@ -170,13 +170,25 @@ violin2ChorusRhythm = times 16 [qn * 2/3, qn * 1/3]
 -- viola
 
 violaPart :: Music Pitch
-violaPart = instrument Viola $ line [violaVerse1, violaChorus]
+violaPart = instrument Viola $ line [violaVerse1, violaChorus, violaVerse2, violaChorus, violaVerse3, violaChorus]
 
 violaVerse1 :: Music Pitch
 violaVerse1 = verseRest
 
 violaChorus :: Music Pitch
 violaChorus = line [d 3 wn, a 3 wn, bf 3 hn, c 4 hn, d 3 (wn * 11/12), d 4 tq]
+
+violaVerse2 :: Music Pitch
+violaVerse2 = line $ concat [times 3 [wnr], violaTutti, times 3 [wnr], violaTutti, times 3 (violaVerse2Motive ++ violaTutti)]
+
+violaTutti :: [Music Pitch]
+violaTutti = [d 3 qn, c 3 tq2, d 3 t12, c 3 t12, d 3 hn]
+
+violaVerse2Motive :: [Music Pitch]
+violaVerse2Motive = applyRhythm (map (applyOct 3) [d, d, c, c, d, f]) (times 6 [hn])
+
+violaVerse3 :: Music Pitch
+violaVerse3 = verseRest
 
 
 -- cello
